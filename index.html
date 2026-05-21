@@ -2,199 +2,240 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Roast My Day 🔥</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Roast My Day</title>
   <style>
-    :root {
-      --bg: #07050f;
-      --surface: #0e0b1a;
-      --surface2: #150f24;
-      --purple: #a855f7;
-      --purple2: #7c3aed;
-      --purple3: #c084fc;
-      --muted: #6b5f8a;
-      --border: #2a1f45;
-      --white: #f0ebff;
-      --green: #86efac;
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600&display=swap');
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: var(--bg); color: var(--white); font-family: 'Syne', sans-serif; min-height: 100vh; overflow-x: hidden; }
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 60% 50% at 50% 0%, rgba(124,58,237,0.18) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 30% at 10% 50%, rgba(168,85,247,0.08) 0%, transparent 60%),
-        radial-gradient(ellipse 40% 30% at 90% 80%, rgba(192,132,252,0.07) 0%, transparent 60%);
-      pointer-events: none;
-      animation: breathe 5s ease-in-out infinite alternate;
+    body { font-family: 'Inter', sans-serif; background: #060810; color: #fff; min-height: 100vh; }
+
+    .hero {
+      background: radial-gradient(ellipse at 50% 0%, #3a0a0a 0%, #1a0505 40%, #060810 100%);
+      padding: 50px 20px 30px; text-align: center;
     }
-    @keyframes breathe { from { opacity: 0.6; } to { opacity: 1; } }
-    .container { max-width: 680px; margin: 0 auto; padding: 52px 24px 80px; position: relative; z-index: 1; }
-    header { text-align: center; margin-bottom: 52px; animation: slideDown 0.8s cubic-bezier(0.16,1,0.3,1) both; }
-    @keyframes slideDown { from { opacity:0; transform:translateY(-30px); } to { opacity:1; transform:translateY(0); } }
-    .flame-icon { font-size: 64px; display: block; animation: flicker 2s ease-in-out infinite alternate; filter: drop-shadow(0 0 24px rgba(168,85,247,0.9)); }
-    @keyframes flicker {
-      0%   { transform: scale(1) rotate(-2deg); filter: drop-shadow(0 0 20px rgba(168,85,247,0.8)); }
-      33%  { transform: scale(1.05) rotate(1deg); filter: drop-shadow(0 0 35px rgba(124,58,237,1)); }
-      66%  { transform: scale(0.97) rotate(-1deg); filter: drop-shadow(0 0 15px rgba(192,132,252,0.7)); }
-      100% { transform: scale(1.02) rotate(2deg); filter: drop-shadow(0 0 28px rgba(168,85,247,0.9)); }
+    .hero-emoji { font-size: 4rem; margin-bottom: 12px; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 7vw, 3.5rem); background: linear-gradient(135deg, #fff, #ff6b6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+    .hero p { color: #ff6b6b88; letter-spacing: 3px; font-size: 0.8rem; }
+
+    .section { max-width: 700px; margin: 0 auto; padding: 30px 16px; }
+    .section-title { font-size: 0.68rem; letter-spacing: 4px; color: #ff6b6b; text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, #ff6b6b33, transparent); }
+
+    textarea {
+      width: 100%; background: #0d0a0a; border: 1px solid #2a1515; border-radius: 16px;
+      padding: 18px; color: #fff; font-family: 'Inter', sans-serif; font-size: 0.95rem;
+      resize: none; height: 160px; outline: none; transition: border-color 0.2s;
+      line-height: 1.6;
     }
-    h1 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(56px,13vw,96px);
-      letter-spacing: 5px;
-      line-height: 0.92;
-      margin-top: 14px;
-      background: linear-gradient(135deg, #c084fc 0%, #a855f7 50%, #7c3aed 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      filter: drop-shadow(0 0 40px rgba(168,85,247,0.35));
+    textarea:focus { border-color: #ff6b6b55; }
+    textarea::placeholder { color: #4a3535; }
+
+    .mood-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 16px 0; }
+    @media(min-width: 500px) { .mood-grid { grid-template-columns: repeat(6, 1fr); } }
+    .mood-btn { background: #0d0a0a; border: 1px solid #2a1515; border-radius: 12px; padding: 12px 8px; text-align: center; cursor: pointer; transition: all 0.2s; }
+    .mood-btn:hover, .mood-btn.selected { border-color: #ff6b6b; background: #1a0a0a; }
+    .mood-emoji { font-size: 1.5rem; display: block; margin-bottom: 4px; }
+    .mood-label { font-size: 0.65rem; color: #666; }
+
+    .roast-btn {
+      width: 100%; padding: 16px; background: linear-gradient(135deg, #8b0000, #cc2222);
+      border: none; border-radius: 16px; color: #fff; font-size: 1rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; margin-top: 16px; letter-spacing: 1px;
     }
-    .subtitle { margin-top: 14px; font-size: 13px; color: var(--muted); letter-spacing: 4px; text-transform: uppercase; font-weight: 600; }
-    .day-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; padding: 6px 16px; border: 1px solid var(--border); border-radius: 100px; font-size: 11px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; background: rgba(168,85,247,0.05); }
-    .divider { display: flex; align-items: center; gap: 16px; margin: 0 auto 44px; width: 80%; }
-    .divider::before { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--border)); }
-    .divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
-    .divider-icon { color: var(--purple); font-size: 14px; }
-    .input-section { animation: slideUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.2s both; }
-    @keyframes slideUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
-    .input-label { display: block; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--purple); font-weight: 700; margin-bottom: 12px; font-family: 'JetBrains Mono', monospace; }
-    .day-textarea { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; color: var(--white); font-family: 'Syne', sans-serif; font-size: 16px; line-height: 1.7; resize: none; min-height: 200px; outline: none; transition: border-color 0.3s, box-shadow 0.3s, background 0.3s; caret-color: var(--purple); }
-    .day-textarea::placeholder { color: var(--border); font-style: italic; }
-    .day-textarea:focus { border-color: var(--purple2); box-shadow: 0 0 0 3px rgba(124,58,237,0.1); background: var(--surface2); }
-    .char-row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
-    .char-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--border); transition: color 0.3s; }
-    .char-count.active { color: var(--muted); }
-    .char-count.ready { color: var(--purple); }
-    .char-hint { font-size: 11px; color: var(--border); letter-spacing: 1px; }
-    .roast-btn { margin-top: 28px; width: 100%; padding: 20px; background: linear-gradient(135deg, var(--purple2), var(--purple)); border: none; border-radius: 14px; color: #fff; font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 5px; cursor: pointer; transition: transform 0.2s, box-shadow 0.3s; box-shadow: 0 4px 32px rgba(124,58,237,0.45); }
-    .roast-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 44px rgba(124,58,237,0.6); }
-    .roast-btn:active:not(:disabled) { transform: translateY(0); }
-    .roast-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-    .btn-content { display: flex; align-items: center; justify-content: center; gap: 10px; }
-    .spinner { width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .result-section { margin-top: 48px; animation: revealRoast 0.6s cubic-bezier(0.16,1,0.3,1) both; }
-    @keyframes revealRoast { from { opacity:0; transform:scale(0.95) translateY(20px); } to { opacity:1; transform:scale(1) translateY(0); } }
-    .result-card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 36px 32px; position: relative; overflow: hidden; }
-    .result-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--purple2), var(--purple3), var(--purple)); }
-    .result-label { display: flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--purple); margin-bottom: 20px; }
-    .result-label-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
-    .roast-text { font-size: 17px; line-height: 1.85; color: var(--white); }
-    .roast-text .wholesome { display: block; margin-top: 20px; color: var(--green); font-style: italic; font-size: 15px; padding-top: 16px; border-top: 1px solid var(--border); }
-    .share-row { display: flex; gap: 12px; margin-top: 24px; }
-    .share-btn, .retry-btn { flex: 1; padding: 13px; border-radius: 10px; font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 1px; cursor: pointer; transition: all 0.2s; }
-    .share-btn { background: var(--surface2); border: 1px solid var(--border); color: var(--muted); }
-    .share-btn:hover { background: var(--border); color: var(--white); }
-    .retry-btn { background: transparent; border: 1px solid var(--purple2); color: var(--purple3); }
-    .retry-btn:hover { background: rgba(124,58,237,0.12); }
-    .error-card { margin-top: 20px; padding: 16px 20px; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.25); border-radius: 12px; color: #f87171; font-size: 14px; font-family: 'JetBrains Mono', monospace; display: flex; gap: 10px; }
-    footer { text-align: center; margin-top: 64px; font-size: 12px; color: var(--border); letter-spacing: 1px; }
-    footer a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
-    footer a:hover { color: var(--purple); }
-    @media (max-width: 480px) { .container { padding: 32px 16px 60px; } .result-card { padding: 24px 20px; } .share-row { flex-direction: column; } }
+    .roast-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px #cc222244; }
+    .roast-btn:active { transform: translateY(0); }
+    .roast-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .result-card {
+      background: linear-gradient(135deg, #0d0a0a, #060810); border: 1px solid #2a1515;
+      border-radius: 16px; padding: 24px; margin-top: 20px; display: none;
+      animation: fadeIn 0.4s ease;
+    }
+    .result-card.visible { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .roast-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .roast-icon { font-size: 1.8rem; }
+    .roast-title { font-size: 0.7rem; letter-spacing: 3px; color: #ff6b6b; text-transform: uppercase; }
+    .roast-text { font-size: 1rem; line-height: 1.8; color: #ddd; }
+    .roast-text.loading { color: #666; font-style: italic; }
+
+    .rating-section { margin-top: 20px; padding-top: 16px; border-top: 1px solid #2a1515; }
+    .rating-label { font-size: 0.68rem; letter-spacing: 2px; color: #666; margin-bottom: 10px; }
+    .rating-bars { display: flex; flex-direction: column; gap: 8px; }
+    .rating-bar { display: flex; align-items: center; gap: 10px; }
+    .rating-name { font-size: 0.75rem; color: #888; min-width: 80px; }
+    .bar-bg { flex: 1; height: 6px; background: #1a0a0a; border-radius: 3px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #8b0000, #ff6b6b); transition: width 1s ease; }
+
+    .share-btn { width: 100%; padding: 12px; background: transparent; border: 1px solid #2a1515; border-radius: 12px; color: #888; font-size: 0.85rem; cursor: pointer; margin-top: 16px; transition: all 0.2s; }
+    .share-btn:hover { border-color: #ff6b6b55; color: #ff6b6b; }
+
+    .history-section { margin-top: 8px; }
+    .history-item { background: #0d0a0a; border: 1px solid #1a0a0a; border-radius: 12px; padding: 14px 16px; margin-bottom: 8px; cursor: pointer; transition: border-color 0.2s; }
+    .history-item:hover { border-color: #ff6b6b33; }
+    .history-date { font-size: 0.65rem; color: #555; margin-bottom: 4px; }
+    .history-preview { font-size: 0.82rem; color: #888; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    footer { text-align: center; padding: 30px 20px; color: #2a1515; font-size: 0.72rem; letter-spacing: 2px; }
+    footer span { color: #ff6b6b; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <span class="flame-icon">🔥</span>
-      <h1>ROAST<br>MY DAY</h1>
-      <p class="subtitle">AI-Powered Brutal Honesty</p>
-      <div class="day-badge"><span>📦</span> Day 4 — Anuj's Builder Bootcamp</div>
-    </header>
-    <div class="divider"><span class="divider-icon">✦</span></div>
-    <div class="input-section">
-      <label class="input-label" for="dayInput">// how was your day?</label>
-      <textarea id="dayInput" class="day-textarea" placeholder="Pour it all out... the embarrassing moments, the failed plans, the awkward silences, the nap you 100% didn't deserve. The AI will NOT be gentle." maxlength="800"></textarea>
-      <div class="char-row">
-        <span class="char-count" id="charCount">0 / 800</span>
-        <span class="char-hint">min 10 chars to roast</span>
-      </div>
-      <button class="roast-btn" id="roastBtn" onclick="getRoasted()" disabled>
-        <div class="btn-content"><span>🔥</span><span>ROAST ME</span></div>
-      </button>
-    </div>
-    <div id="errorEl" style="display:none"></div>
-    <div id="resultEl" style="display:none"></div>
-    <footer>
-      <div>Built by <a href="https://anuj-builds.vercel.app" target="_blank">Anuj</a> · Bootcamp by Love Bhiya 🙏</div>
-      <div style="margin-top:6px;opacity:0.5">anuj-builds.vercel.app</div>
-    </footer>
+
+  <div class="hero">
+    <div class="hero-emoji">🔥</div>
+    <h1>Roast My Day</h1>
+    <p>TELL ME YOUR DAY · GET ROASTED</p>
   </div>
+
+  <div class="section">
+    <div class="section-title">How was your day?</div>
+    <textarea id="dayInput" placeholder="Tell me about your day... What did you do? What went wrong? What did you eat? Don't hold back — the more you share, the harder I roast!"></textarea>
+
+    <div class="section-title" style="margin-top:20px">Your mood</div>
+    <div class="mood-grid">
+      <div class="mood-btn selected" data-mood="terrible" onclick="selectMood(this)"><span class="mood-emoji">😭</span><span class="mood-label">Terrible</span></div>
+      <div class="mood-btn" data-mood="bad" onclick="selectMood(this)"><span class="mood-emoji">😤</span><span class="mood-label">Bad</span></div>
+      <div class="mood-btn" data-mood="meh" onclick="selectMood(this)"><span class="mood-emoji">😑</span><span class="mood-label">Meh</span></div>
+      <div class="mood-btn" data-mood="okay" onclick="selectMood(this)"><span class="mood-emoji">🙂</span><span class="mood-label">Okay</span></div>
+      <div class="mood-btn" data-mood="good" onclick="selectMood(this)"><span class="mood-emoji">😊</span><span class="mood-label">Good</span></div>
+      <div class="mood-btn" data-mood="amazing" onclick="selectMood(this)"><span class="mood-emoji">🤩</span><span class="mood-label">Amazing</span></div>
+    </div>
+
+    <button class="roast-btn" onclick="getRoast()" id="roastBtn">🔥 ROAST MY DAY</button>
+
+    <div class="result-card" id="resultCard">
+      <div class="roast-header">
+        <span class="roast-icon">🎤</span>
+        <span class="roast-title">Your Roast</span>
+      </div>
+      <div class="roast-text" id="roastText"></div>
+
+      <div class="rating-section" id="ratingSection" style="display:none">
+        <div class="rating-label">DAY RATINGS</div>
+        <div class="rating-bars">
+          <div class="rating-bar"><span class="rating-name">Productivity</span><div class="bar-bg"><div class="bar-fill" id="bar1" style="width:0%"></div></div></div>
+          <div class="rating-bar"><span class="rating-name">Social Life</span><div class="bar-bg"><div class="bar-fill" id="bar2" style="width:0%"></div></div></div>
+          <div class="rating-bar"><span class="rating-name">Health</span><div class="bar-bg"><div class="bar-fill" id="bar3" style="width:0%"></div></div></div>
+          <div class="rating-bar"><span class="rating-name">Overall</span><div class="bar-bg"><div class="bar-fill" id="bar4" style="width:0%"></div></div></div>
+        </div>
+      </div>
+
+      <button class="share-btn" onclick="copyRoast()">📋 Copy Roast</button>
+    </div>
+
+    <div class="section-title" style="margin-top:30px">Roast History</div>
+    <div id="historyList"><div style="color:#333;font-size:0.82rem;text-align:center;padding:20px">No roasts yet. Tell me your day!</div></div>
+  </div>
+
+  <footer>Built by <span>Anuj</span> · Powered by <span>Claude AI</span> · Roast My Day 🔥</footer>
+
   <script>
-    const textarea = document.getElementById('dayInput');
-    const charCount = document.getElementById('charCount');
-    const roastBtn = document.getElementById('roastBtn');
-    const resultEl = document.getElementById('resultEl');
-    const errorEl = document.getElementById('errorEl');
+    let selectedMood = 'terrible';
+    let roastHistory = JSON.parse(localStorage.getItem('roastHistory') || '[]');
 
-    textarea.addEventListener('input', () => {
-      const len = textarea.value.length;
-      charCount.textContent = len + ' / 800';
-      charCount.className = 'char-count' + (len >= 10 ? (len >= 50 ? ' ready' : ' active') : '');
-      roastBtn.disabled = len < 10;
-    });
+    function selectMood(el) {
+      document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedMood = el.dataset.mood;
+    }
 
-    async function getRoasted() {
-      const day = textarea.value.trim();
-      if (day.length < 10) return;
-      resultEl.style.display = 'none';
-      errorEl.style.display = 'none';
-      roastBtn.disabled = true;
-      roastBtn.querySelector('.btn-content').innerHTML = '<div class="spinner"></div><span>COOKING YOUR ROAST...</span>';
+    async function getRoast() {
+      const day = document.getElementById('dayInput').value.trim();
+      if (!day) { alert('Tell me about your day first!'); return; }
+
+      const btn = document.getElementById('roastBtn');
+      btn.disabled = true;
+      btn.textContent = '🔥 Roasting...';
+
+      const resultCard = document.getElementById('resultCard');
+      const roastText = document.getElementById('roastText');
+      resultCard.classList.add('visible');
+      roastText.className = 'roast-text loading';
+      roastText.textContent = 'Preparing your roast...';
+      document.getElementById('ratingSection').style.display = 'none';
+
       try {
-        const res = await fetch('/api/roast', {
+        const response = await fetch('https://api.anthropic.com/v1/messages', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ day }),
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 1000,
+            system: `You are a savage but funny roast comedian. The user will tell you about their day and their mood. 
+Roast them brutally but in a fun, lighthearted way — like a best friend who teases you. 
+Be specific about what they said. Use Indian references when possible (chai, jugaad, etc). 
+Keep it under 150 words. End with one line of genuine encouragement.
+After the roast, on a new line write exactly: RATINGS:productivity:X,social:X,health:X,overall:X 
+where X is a number 1-100 based on their day description.`,
+            messages: [{ role: 'user', content: `My mood today: ${selectedMood}\nMy day: ${day}` }]
+          })
         });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Something went wrong');
-        const sentences = data.roast.trim().split(/(?<=[.!?])\s+/);
-        const lastSentence = sentences.pop();
-        const mainRoast = sentences.join(' ');
-        resultEl.style.display = 'block';
-        resultEl.innerHTML = '<div class="result-section"><div class="result-card"><div class="result-label">🔥 Your Roast <div class="result-label-line"></div></div><p class="roast-text">' + escapeHtml(mainRoast) + (lastSentence ? '<span class="wholesome">' + escapeHtml(lastSentence) + '</span>' : '') + '</p><div class="share-row"><button class="share-btn" id="copyBtn">📋 Copy Roast</button><button class="retry-btn" onclick="resetApp()">🔄 Roast Again</button></div></div></div>';
-        document.getElementById('copyBtn').addEventListener('click', () => copyRoast(data.roast));
-        resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      } catch (err) {
-        errorEl.style.display = 'block';
-        errorEl.innerHTML = '<div class="error-card"><span>⚠️</span><span>' + escapeHtml(err.message) + '</span></div>';
-      } finally {
-        roastBtn.disabled = false;
-        roastBtn.querySelector('.btn-content').innerHTML = '<span>🔥</span><span>ROAST ME</span>';
+
+        const data = await response.json();
+        const fullText = data.content[0].text;
+
+        const parts = fullText.split('RATINGS:');
+        const roastContent = parts[0].trim();
+        
+        roastText.className = 'roast-text';
+        roastText.textContent = roastContent;
+
+        if (parts[1]) {
+          const ratings = {};
+          parts[1].split(',').forEach(r => {
+            const [k, v] = r.trim().split(':');
+            ratings[k] = parseInt(v);
+          });
+          document.getElementById('ratingSection').style.display = 'block';
+          setTimeout(() => {
+            document.getElementById('bar1').style.width = (ratings.productivity || 50) + '%';
+            document.getElementById('bar2').style.width = (ratings.social || 50) + '%';
+            document.getElementById('bar3').style.width = (ratings.health || 50) + '%';
+            document.getElementById('bar4').style.width = (ratings.overall || 50) + '%';
+          }, 100);
+        }
+
+        const historyItem = { date: new Date().toLocaleDateString('en-IN'), day: day.substring(0, 60), roast: roastContent, mood: selectedMood };
+        roastHistory.unshift(historyItem);
+        if (roastHistory.length > 5) roastHistory.pop();
+        localStorage.setItem('roastHistory', JSON.stringify(roastHistory));
+        renderHistory();
+
+      } catch(e) {
+        roastText.className = 'roast-text';
+        roastText.textContent = 'Could not generate roast. Try again!';
       }
+
+      btn.disabled = false;
+      btn.textContent = '🔥 ROAST MY DAY';
     }
 
-    function resetApp() {
-      textarea.value = '';
-      charCount.textContent = '0 / 800';
-      charCount.className = 'char-count';
-      roastBtn.disabled = true;
-      resultEl.style.display = 'none';
-      errorEl.style.display = 'none';
-      textarea.focus();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    function copyRoast() {
+      const text = document.getElementById('roastText').textContent;
+      navigator.clipboard.writeText(text);
+      const btn = document.querySelector('.share-btn');
+      btn.textContent = '✅ Copied!';
+      setTimeout(() => btn.textContent = '📋 Copy Roast', 2000);
     }
 
-    async function copyRoast(text) {
-      try {
-        await navigator.clipboard.writeText(text);
-        const btn = document.getElementById('copyBtn');
-        btn.textContent = '✅ Copied!';
-        setTimeout(() => btn.textContent = '📋 Copy Roast', 2000);
-      } catch { alert(text); }
+    function renderHistory() {
+      const list = document.getElementById('historyList');
+      if (roastHistory.length === 0) {
+        list.innerHTML = '<div style="color:#333;font-size:0.82rem;text-align:center;padding:20px">No roasts yet!</div>';
+        return;
+      }
+      list.innerHTML = roastHistory.map(h => `
+        <div class="history-item">
+          <div class="history-date">${h.date} · ${h.mood}</div>
+          <div class="history-preview">${h.day}...</div>
+        </div>
+      `).join('');
     }
 
-    function escapeHtml(str) {
-      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    }
+    renderHistory();
   </script>
 </body>
 </html>
